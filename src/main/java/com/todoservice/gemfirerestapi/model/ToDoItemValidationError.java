@@ -1,13 +1,13 @@
 package com.todoservice.gemfirerestapi.model;
 
 public class ToDoItemValidationError {
-	private Details[] details;
+	private ToDoItemValidationErrorDetails[] details;
 	private String name;
-
-	public Details[] getDetails() {
+	
+	public ToDoItemValidationErrorDetails[] getDetails() {
 		return details;
 	}
-	public void setDetails(Details[] details) {
+	public void setDetails(ToDoItemValidationErrorDetails[] details) {
 		this.details = details;
 	}
 	public String getName() {
@@ -16,11 +16,6 @@ public class ToDoItemValidationError {
 	public void setName(String name) {
 		this.name = name;
 	}
-	class Details {
-		protected String location;
-		protected String param;
-		protected String msg;
-		protected String value;
-	}
+
 }
 

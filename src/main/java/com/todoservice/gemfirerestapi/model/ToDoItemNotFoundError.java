@@ -3,14 +3,16 @@ package com.todoservice.gemfirerestapi.model;
 
 
 public class ToDoItemNotFoundError {
-	private Details[] details;
+
+
+	private ToDoItemNotFoundErrorDetails[] details;
 	private String name;
 
-	public Details[] getDetails() {
+	public ToDoItemNotFoundErrorDetails[] getDetails() {
 		return details;
 	}
 
-	public void setDetails(Details[] details) {
+	public void setDetails(ToDoItemNotFoundErrorDetails[] details) {
 		this.details = details;
 	}
 
@@ -22,8 +24,5 @@ public class ToDoItemNotFoundError {
 		this.name = name;
 	}
 
-	class Details {
-		protected String message;
 
-	}
 }
