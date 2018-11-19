@@ -18,31 +18,31 @@ public class ValidationService {
 
         	return validateBracketsModel;
     	}
-        final Map<Character, Character> closeToOpen = new HashMap<Character, Character>();
-        closeToOpen.put('}', '{');
-        closeToOpen.put(']', '[');
-        closeToOpen.put(')', '(');
+        final Map<Character, Character> balancedHashMap = new HashMap<Character, Character>();
+        balancedHashMap.put('}', '{');
+        balancedHashMap.put(']', '[');
+        balancedHashMap.put(')', '(');
         validateBracketsModel.setInput(input);
-        validateBracketsModel.setBalanced(isBalanced(input, new LinkedList<Character>(), closeToOpen));
+        validateBracketsModel.setBalanced(isBalanced(input, new LinkedList<Character>(), balancedHashMap));
 
     	return validateBracketsModel;
     }
     
-    private static boolean isBalanced(final String str1, final LinkedList<Character> openedBrackets, final Map<Character, Character> closeToOpen) {
+    private static boolean isBalanced(final String str1, final LinkedList<Character> startedList, final Map<Character, Character> balancedHashMap) {
         if ((str1 == null) || str1.isEmpty()) {
-            return openedBrackets.isEmpty();
-        } else if (closeToOpen.containsValue(str1.charAt(0))) {
-            openedBrackets.add(str1.charAt(0));
-            return isBalanced(str1.substring(1), openedBrackets, closeToOpen);
-        } else if (closeToOpen.containsKey(str1.charAt(0))) {
-            if (openedBrackets.getLast() == closeToOpen.get(str1.charAt(0))) {
-                openedBrackets.removeLast();
-                return isBalanced(str1.substring(1), openedBrackets, closeToOpen);
+            return startedList.isEmpty();
+        } else if (balancedHashMap.containsValue(str1.charAt(0))) {  //if find { [ (, add to linkedList
+        	startedList.add(str1.charAt(0));
+            return isBalanced(str1.substring(1), startedList, balancedHashMap);
+        } else if (balancedHashMap.containsKey(str1.charAt(0))) {
+            if (startedList.getLast() !=null && startedList.getLast() == balancedHashMap.get(str1.charAt(0))) {
+            	startedList.removeLast();
+                return isBalanced(str1.substring(1), startedList, balancedHashMap);
             } else {
                 return false;
             }
         } else {
-            return isBalanced(str1.substring(1), openedBrackets, closeToOpen);
+            return isBalanced(str1.substring(1), startedList, balancedHashMap);
         }
     }
     private static boolean filterEndBrakets(String str) {
