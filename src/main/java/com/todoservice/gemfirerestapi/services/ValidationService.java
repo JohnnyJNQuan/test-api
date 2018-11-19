@@ -6,12 +6,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.todoservice.gemfirerestapi.model.ValidateBracketsModel;
+import com.todoservice.gemfirerestapi.model.BalanceTestResult;
 
 @Service
 public class ValidationService {
-    public ValidateBracketsModel getValidateBracketsModel(String input) {
-    	ValidateBracketsModel validateBracketsModel = new ValidateBracketsModel();
+    public BalanceTestResult getValidateBracketsModel(String input) {
+    	BalanceTestResult validateBracketsModel = new BalanceTestResult();
     	if (!filterEndBrakets(input)) {
     		validateBracketsModel.setInput(input);
             validateBracketsModel.setBalanced(false);

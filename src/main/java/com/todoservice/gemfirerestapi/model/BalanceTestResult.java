@@ -1,6 +1,6 @@
 package com.todoservice.gemfirerestapi.model;
 
-public class ValidateBracketsModel {
+public class BalanceTestResult {
 
 	private String input;
 	private boolean isBalanced;

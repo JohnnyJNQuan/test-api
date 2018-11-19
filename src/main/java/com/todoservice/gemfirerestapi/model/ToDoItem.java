@@ -18,15 +18,15 @@ public class ToDoItem {
 	
     @Id
     private Long id;
-    @Min(1)
-    @Max(50)
     private String text;
-    private String createAt = OffsetDateTime.now().toString();
-    private boolean isCompleted = false;
+    private String createAt;
+    private boolean isCompleted;
      
     @PersistenceConstructor
 	public ToDoItem() {
 		this.id = COUNTER.incrementAndGet();
+		this.createAt = OffsetDateTime.now().toString();
+		this.isCompleted = false;
 	}
  
     public long getId() {
