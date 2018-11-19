@@ -33,7 +33,7 @@ public class ToDoController {
 
 	@PostMapping("/todo")
     public ResponseEntity<ToDoItem> postItem( @RequestBody ToDoItemAddRequest toDoItemAddRequest)throws Exception {
-		if (toDoItemAddRequest.getText().length()>50 ||toDoItemAddRequest.getText().length()<1 ) 
+		if (toDoItemAddRequest.getText()!=null &&  (toDoItemAddRequest.getText().length()>50 ||toDoItemAddRequest.getText().length()<1) ) 
 			throw new ValidationErrorException(toDoItemAddRequest.getText());
 		ToDoItem toDoItem = new ToDoItem();
 		toDoItem.setText(toDoItemAddRequest.getText());
@@ -44,10 +44,10 @@ public class ToDoController {
 	
 	@PatchMapping("/todo/{id}")
     public ResponseEntity<ToDoItem> patchItem(@RequestBody ToDoItemUpdateRequest toDoItemUpdateRequest, @PathVariable("id") long id ) throws Exception {
-		if (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1 ) 
+		if (toDoItemUpdateRequest.getText()!=null &&  (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1) ) 
 			throw new ValidationErrorException(toDoItemUpdateRequest.getText());
 		ToDoItem toDoItem = todoRepository.findById(id);
-		toDoItem.setText(toDoItemUpdateRequest.getText());
+		if (toDoItemUpdateRequest.getText()!=null) toDoItem.setText(toDoItemUpdateRequest.getText());
 		toDoItem.setIsCompleted(toDoItemUpdateRequest.isCompleted());
 		todoRepository.save(toDoItem);
     

@@ -2,10 +2,12 @@ package com.todoservice.gemfirerestapi.model;
 
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ToDoItemUpdateRequest {
     private String text;
     private boolean isCompleted;
-
+    @JsonProperty("isCompleted")
 	public boolean isCompleted() {
 		return isCompleted;
 	}
