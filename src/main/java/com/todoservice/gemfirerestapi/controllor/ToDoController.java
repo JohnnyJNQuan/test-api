@@ -22,13 +22,14 @@ public class ToDoController {
 	@Autowired
 	private ToDoService toDoService;
 	
-	@RequestMapping("/todo/{id}")
+	// get to-do item by id
+	@RequestMapping(value = "/todo/{id}", method = RequestMethod.GET)
     public ResponseEntity<ToDoItem>  getItem(@PathVariable("id") long id) throws Exception {
 		ToDoItem toDoItem = toDoService.getToDoById(id);
 		if(toDoItem==null) throw new ItemNotFoundException("Item with "+id+" not found");
     	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
     }
-
+	// create a to-do item
 	@PostMapping("/todo")
     public ResponseEntity<ToDoItem> postItem( @RequestBody ToDoItemAddRequest toDoItemAddRequest) throws Exception {
 		if (toDoItemAddRequest.getText()==null) throw new NullInputException();
@@ -37,7 +38,7 @@ public class ToDoController {
 		ToDoItem toDoItem = toDoService.saveToDo(toDoItemAddRequest);
     	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
     }
-	
+	// update a to-do item
 	@PatchMapping("/todo/{id}")
     public ResponseEntity<ToDoItem> patchItem(@RequestBody ToDoItemUpdateRequest toDoItemUpdateRequest, @PathVariable("id") long id ) throws Exception {
 		if (toDoItemUpdateRequest.getText()!=null && (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1 )) 

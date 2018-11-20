@@ -4,8 +4,6 @@ package com.todoservice.gemfirerestapi.model;
 import java.time.OffsetDateTime;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.validation.constraints.*;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.gemfire.mapping.Region;
@@ -56,9 +54,6 @@ public class ToDoItem {
         this.isCompleted = isCompleted;
     }
 
-     
-//    public String toString(){
-//        return "firstname: " + firstname + " ,lastname: " + lastname + " ,age: " + age; 
-//    }
+
 
 }

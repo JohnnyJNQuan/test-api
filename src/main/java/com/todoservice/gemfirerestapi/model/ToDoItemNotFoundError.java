@@ -1,7 +1,5 @@
 package com.todoservice.gemfirerestapi.model;
 
-
-
 public class ToDoItemNotFoundError {
 
 

@@ -10,7 +10,7 @@ import com.todoservice.gemfirerestapi.model.BalanceTestResult;
 
 @Service("ValidationService")
 public class ValidationServiceImp implements ValidationService{
-	
+	// Validate the input is balanced or not
 	@Override
     public BalanceTestResult getValidateBracketsModel(String input) {
     	BalanceTestResult validateBracketsModel = new BalanceTestResult();
@@ -29,7 +29,7 @@ public class ValidationServiceImp implements ValidationService{
 
     	return validateBracketsModel;
     }
-    
+    // check whether the input is balanced or not
     public static boolean isBalanced(final String str1, final LinkedList<Character> startedList, final Map<Character, Character> balancedHashMap) {
         if ( (str1 == null) || str1.isEmpty()) {
             return startedList.isEmpty();
@@ -47,6 +47,7 @@ public class ValidationServiceImp implements ValidationService{
             return isBalanced(str1.substring(1), startedList, balancedHashMap); // input without brackets
         }
     }
+    // Filter the single closed bracket
     private static boolean filterEndBrakets(String str) {
         boolean bool = true;
         char c;

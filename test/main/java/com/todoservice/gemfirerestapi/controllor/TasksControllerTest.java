@@ -1,7 +1,5 @@
 package com.todoservice.gemfirerestapi.controllor;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -39,6 +37,7 @@ public class TasksControllerTest {
 
 	}
 
+	// verify balanced input
 	@Test
 	public void verifyBlanceTasks() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "{test}[test](test)")
@@ -47,6 +46,7 @@ public class TasksControllerTest {
 				.andExpect(jsonPath("$.isBalanced").value(true)).andDo(print());
 	}
 	
+	// verify balanced input without brackets
 	@Test
 	public void verifyBlanceTasksWithOutBrackets() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "verifyBlanceTasksWithOutBrackets")
@@ -54,7 +54,7 @@ public class TasksControllerTest {
 				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("verifyBlanceTasksWithOutBrackets"))
 				.andExpect(jsonPath("$.isBalanced").value(true)).andDo(print());
 	}
-	
+	// verify imbalance input
 	@Test
 	public void verifyFalseBlanceTasks() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "]{(})[")
@@ -63,14 +63,16 @@ public class TasksControllerTest {
 				.andExpect(jsonPath("$.isBalanced").value(false)).andDo(print());
 	}
 	
+	// verify single imbalance bracket
 	@Test
-	public void verifySingleNonBlanceTasks() throws Exception {
+	public void verifySingleImBlanceTasks() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "}")
 				.accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.input").exists())
 				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("}"))
 				.andExpect(jsonPath("$.isBalanced").value(false)).andDo(print());
 	}
 	
+	// verify empty input
 	@Test
 	public void verifyInvalidInput() throws Exception {
 		

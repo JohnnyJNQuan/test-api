@@ -14,6 +14,7 @@ public class TasksController {
 	@Autowired
 	private ValidationService ValidationService;
 	
+	// validate balanced brackets
 	@GetMapping("/tasks/validateBrackets")
 	public BalanceTestResult validateBrackets(@RequestParam(value = "input") String input) throws Exception{
 		if(input.length() == 0) throw new BalancedInputValidationErrorException(input);

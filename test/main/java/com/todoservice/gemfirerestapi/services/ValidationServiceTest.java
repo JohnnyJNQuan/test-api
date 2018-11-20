@@ -1,21 +1,15 @@
 package com.todoservice.gemfirerestapi.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,6 +28,7 @@ public class ValidationServiceTest {
 		MockitoAnnotations.initMocks(this);
 	}
 	
+	// test single open bracket with [
 	@Test
 	public void testSingleOpenOne(){
 		
@@ -41,7 +36,7 @@ public class ValidationServiceTest {
 		assertEquals("[", result.getInput());
 		assertEquals(false, result.isBalanced());
 	}
-	
+	// test single open bracket with {
 	@Test
 	public void testSingleOpenTwo(){
 		
@@ -49,7 +44,7 @@ public class ValidationServiceTest {
 		assertEquals("{", result.getInput());
 		assertEquals(false, result.isBalanced());
 	}
-	
+	// test single open bracket with (
 	@Test
 	public void testSingleOpenThree(){
 		
@@ -57,7 +52,7 @@ public class ValidationServiceTest {
 		assertEquals("(", result.getInput());
 		assertEquals(false, result.isBalanced());
 	}
-	
+	// test single closed bracket with ]
 	@Test
 	public void testSingleCloseOne(){
 		
@@ -65,7 +60,7 @@ public class ValidationServiceTest {
 		assertEquals("]", result.getInput());
 		assertEquals(false, result.isBalanced());
 	}
-	
+	// test single closed bracket with }
 	@Test
 	public void testSingleCloseTwo(){
 		
@@ -73,7 +68,7 @@ public class ValidationServiceTest {
 		assertEquals("}", result.getInput());
 		assertEquals(false, result.isBalanced());
 	}
-	
+	// test single closed bracket with )
 	@Test
 	public void testSingleCloseThree(){
 		
@@ -82,9 +77,9 @@ public class ValidationServiceTest {
 		assertEquals(false, result.isBalanced());
 	}
 	
-	
+	// test imbalance input on IsBalanceFunction 
 	@Test
-	public void testMalIsBalancedFunction(){
+	public void testFailedIsBalancedFunction(){
         final Map<Character, Character> balancedHashMap = new HashMap<Character, Character>();
         balancedHashMap.put('}', '{');
         balancedHashMap.put(']', '[');
@@ -92,7 +87,7 @@ public class ValidationServiceTest {
 		boolean result = ValidationServiceImp.isBalanced("{[}{]", new LinkedList<Character>(), balancedHashMap);
 		assertEquals(false, result);
 	}
-	
+	// test single imbalance input on IsBalanceFunction 
 	@Test
 	public void testSingleMalIsBalancedFunction(){
         final Map<Character, Character> balancedHashMap = new HashMap<Character, Character>();
@@ -102,7 +97,7 @@ public class ValidationServiceTest {
 		boolean result = ValidationServiceImp.isBalanced("}", new LinkedList<Character>(), balancedHashMap);
 		assertEquals(false, result);
 	}
-	
+	// test null input on IsBalanceFunction 
 	@Test
 	public void testNullIsBalancedFunction(){
         final Map<Character, Character> balancedHashMap = new HashMap<Character, Character>();

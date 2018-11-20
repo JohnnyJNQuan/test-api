@@ -1,7 +1,5 @@
 package com.todoservice.gemfirerestapi.controllor;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -39,6 +37,7 @@ public class ToDoControllerTest {
 
 	}
 	
+	// verify save to-do item
 	@Test
 	public void verifySaveToDo() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/todo/")
@@ -54,6 +53,7 @@ public class ToDoControllerTest {
 		.andDo(print());
 	}
 	
+	// verify save to-do item with empty text input
 	@Test
 	public void verifyMinMalformedSaveToDo() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/todo/")
@@ -68,6 +68,7 @@ public class ToDoControllerTest {
 		.andDo(print());
 	}
 	
+	// verify save to-do item with exceed limit text input
 	@Test
 	public void verifyMaxMalformedSaveToDo() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/todo/")
@@ -81,7 +82,7 @@ public class ToDoControllerTest {
 		.andExpect(jsonPath("$.name").value("ValidationError"))
 		.andDo(print());
 	}
-	
+	// verify save to-do item with null text input
 	@Test
 	public void verifyNullInputSaveToDo() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/todo/")
@@ -94,7 +95,7 @@ public class ToDoControllerTest {
 		.andExpect(jsonPath("$.name").value("ValidationError"))
 		.andDo(print());
 	}
-	
+	// verify get to-do item by id
 	@Test
 	public void verifyToDoById() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/todo/1").accept(MediaType.APPLICATION_JSON))
@@ -107,7 +108,7 @@ public class ToDoControllerTest {
 		.andExpect(jsonPath("$.isCompleted").value(false))
 		.andDo(print());
 	}
-	
+	// verify get to-do item by invalid id
 	@Test
 	public void verifyInvalidToDoId() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/todo/0").accept(MediaType.APPLICATION_JSON))
@@ -115,7 +116,7 @@ public class ToDoControllerTest {
 		.andExpect(jsonPath("$.name").value("NotFoundError"))
 		.andDo(print());
 	}
-	
+	// verify get to-do item by non-exist id
 	@Test
 	public void verifyNullToDoId() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/todo/99").accept(MediaType.APPLICATION_JSON))
@@ -123,7 +124,7 @@ public class ToDoControllerTest {
 		.andExpect(jsonPath("$.name").value("NotFoundError"))
 		.andDo(print());
 	}
-	
+	// verify update a to-do item by id
 	@Test
 	public void verifyUpdateToDo() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.patch("/todo/1")
@@ -140,7 +141,7 @@ public class ToDoControllerTest {
 		.andDo(print());
 	}
 	
-
+	// verify update a to-do item by inputing empty text
 	@Test
 	public void verifyMinInvalidToDoUpdate() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.patch("/todo/1")
@@ -154,6 +155,7 @@ public class ToDoControllerTest {
 		.andExpect(jsonPath("$.name").value("ValidationError"))
 		.andDo(print());
 	}
+	// verify update a to-do item by inputing text which exceeds max limit
 	@Test
 	public void verifyMaxInvalidToDoUpdate() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.patch("/todo/1")
