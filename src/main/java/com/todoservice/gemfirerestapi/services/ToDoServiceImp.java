@@ -13,12 +13,12 @@ public class ToDoServiceImp implements ToDoService{
 	
 	@Autowired
 	private TodoRepository todoRepository;
-	
+	// get to-do item by id
 	@Override
 	public ToDoItem getToDoById(long id) {
 		return todoRepository.findById(id);
 	}
-
+	// save to-do item
 	@Override
 	public ToDoItem saveToDo(ToDoItemAddRequest toDoAddRequest) {
 		ToDoItem toDoItem = new ToDoItem();
@@ -26,7 +26,7 @@ public class ToDoServiceImp implements ToDoService{
 		todoRepository.save(toDoItem);
 		return toDoItem;
 	}
-	
+	// update to-do item
 	@Override
 	public ToDoItem patchToDo(ToDoItemUpdateRequest toDoUpdateRequest, long id) {
 		ToDoItem toDoItem = todoRepository.findById(id);
