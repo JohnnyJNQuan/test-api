@@ -140,24 +140,12 @@ public class ToDoControllerTest {
 		.andDo(print());
 	}
 	
-	@Test
-	public void verifyNullInputUpdateToDo() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.patch("/todo/1")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{ }")
-		.accept(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.details[0].location").value("params"))
-		.andExpect(jsonPath("$.details[0].param").value("text"))
-		.andExpect(jsonPath("$.details[0].msg").value("Text field must be defined"))
-		.andExpect(jsonPath("$.name").value("ValidationError"))
-		.andDo(print());
-	}
-	
+
 	@Test
 	public void verifyMinInvalidToDoUpdate() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.patch("/todo/1")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"text\" : \"\", \"completed\" : \"true\" }")
+        .content("{\"text\" : \"\", \"isCompleted\" : \"true\" }")
         .accept(MediaType.APPLICATION_JSON))
 		.andExpect(jsonPath("$.details[0].location").value("params"))
 		.andExpect(jsonPath("$.details[0].param").value("text"))
@@ -170,7 +158,7 @@ public class ToDoControllerTest {
 	public void verifyMaxInvalidToDoUpdate() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.patch("/todo/1")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"text\" : \"123456789012345678901234567890123456789012345678901234567890\", \"completed\" : \"true\" }")
+        .content("{\"text\" : \"123456789012345678901234567890123456789012345678901234567890\", \"isCompleted\" : \"true\" }")
         .accept(MediaType.APPLICATION_JSON))
 		.andExpect(jsonPath("$.details[0].location").value("params"))
 		.andExpect(jsonPath("$.details[0].param").value("text"))

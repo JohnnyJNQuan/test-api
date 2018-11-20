@@ -30,7 +30,7 @@ public class ToDoServiceImp implements ToDoService{
 	@Override
 	public ToDoItem patchToDo(ToDoItemUpdateRequest toDoUpdateRequest, long id) {
 		ToDoItem toDoItem = todoRepository.findById(id);
-		toDoItem.setText(toDoUpdateRequest.getText());
+		if (toDoUpdateRequest.getText()!=null) toDoItem.setText(toDoUpdateRequest.getText());
 		toDoItem.setIsCompleted(toDoUpdateRequest.isCompleted());
 		todoRepository.save(toDoItem);
 		return toDoItem;

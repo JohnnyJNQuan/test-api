@@ -40,8 +40,7 @@ public class ToDoController {
 	
 	@PatchMapping("/todo/{id}")
     public ResponseEntity<ToDoItem> patchItem(@RequestBody ToDoItemUpdateRequest toDoItemUpdateRequest, @PathVariable("id") long id ) throws Exception {
-		if (toDoItemUpdateRequest.getText()==null) throw new NullInputException();
-		if (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1) 
+		if (toDoItemUpdateRequest.getText()!=null && (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1 )) 
 			throw new ValidationErrorException(toDoItemUpdateRequest.getText());
 		ToDoItem toDoItem = toDoService.patchToDo(toDoItemUpdateRequest,id);
     
