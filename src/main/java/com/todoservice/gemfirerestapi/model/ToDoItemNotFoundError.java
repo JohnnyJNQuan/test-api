@@ -2,7 +2,6 @@ package com.todoservice.gemfirerestapi.model;
 
 public class ToDoItemNotFoundError {
 
-
 	private ToDoItemNotFoundErrorDetails[] details;
 	private String name;
 
@@ -21,6 +20,5 @@ public class ToDoItemNotFoundError {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 }

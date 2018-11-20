@@ -2,6 +2,7 @@ package com.todoservice.gemfirerestapi.model;
 
 public class ToDoItemNotFoundErrorDetails {
 	private String message;
+
 	public String getMessage() {
 		return message;
 	}

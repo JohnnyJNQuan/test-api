@@ -21,32 +21,37 @@ import com.todoservice.gemfirerestapi.exception.ValidationErrorException;;
 public class ToDoController {
 	@Autowired
 	private ToDoService toDoService;
-	
+
 	// get to-do item by id
 	@RequestMapping(value = "/todo/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ToDoItem>  getItem(@PathVariable("id") long id) throws Exception {
+	public ResponseEntity<ToDoItem> getItem(@PathVariable("id") long id) throws Exception {
 		ToDoItem toDoItem = toDoService.getToDoById(id);
-		if(toDoItem==null) throw new ItemNotFoundException("Item with "+id+" not found");
-    	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
-    }
+		if (toDoItem == null)
+			throw new ItemNotFoundException("Item with " + id + " not found");
+		return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
+	}
+
 	// create a to-do item
 	@PostMapping("/todo")
-    public ResponseEntity<ToDoItem> postItem( @RequestBody ToDoItemAddRequest toDoItemAddRequest) throws Exception {
-		if (toDoItemAddRequest.getText()==null) throw new NullInputException();
-		if (toDoItemAddRequest.getText().length()>50 ||toDoItemAddRequest.getText().length()<1 ) 
+	public ResponseEntity<ToDoItem> postItem(@RequestBody ToDoItemAddRequest toDoItemAddRequest) throws Exception {
+		if (toDoItemAddRequest.getText() == null)
+			throw new NullInputException();
+		if (toDoItemAddRequest.getText().length() > 50 || toDoItemAddRequest.getText().length() < 1)
 			throw new ValidationErrorException(toDoItemAddRequest.getText());
 		ToDoItem toDoItem = toDoService.saveToDo(toDoItemAddRequest);
-    	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
-    }
+		return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
+	}
+
 	// update a to-do item
 	@PatchMapping("/todo/{id}")
-    public ResponseEntity<ToDoItem> patchItem(@RequestBody ToDoItemUpdateRequest toDoItemUpdateRequest, @PathVariable("id") long id ) throws Exception {
-		if (toDoItemUpdateRequest.getText()!=null && (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1 )) 
+	public ResponseEntity<ToDoItem> patchItem(@RequestBody ToDoItemUpdateRequest toDoItemUpdateRequest,
+			@PathVariable("id") long id) throws Exception {
+		if (!toDoItemUpdateRequest.isTextNull()
+				&& (toDoItemUpdateRequest.getText().length() > 50 || toDoItemUpdateRequest.getText().length() < 1))
 			throw new ValidationErrorException(toDoItemUpdateRequest.getText());
-		ToDoItem toDoItem = toDoService.patchToDo(toDoItemUpdateRequest,id);
-    
-    	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
-    }
+		ToDoItem toDoItem = toDoService.patchToDo(toDoItemUpdateRequest, id);
 
+		return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
+	}
 
 }

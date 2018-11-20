@@ -45,15 +45,17 @@ public class TasksControllerTest {
 				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("{test}[test](test)"))
 				.andExpect(jsonPath("$.isBalanced").value(true)).andDo(print());
 	}
-	
+
 	// verify balanced input without brackets
 	@Test
 	public void verifyBlanceTasksWithOutBrackets() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "verifyBlanceTasksWithOutBrackets")
-				.accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.input").exists())
-				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("verifyBlanceTasksWithOutBrackets"))
+		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets")
+				.param("input", "verifyBlanceTasksWithOutBrackets").accept(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.input").exists()).andExpect(jsonPath("$.isBalanced").exists())
+				.andExpect(jsonPath("$.input").value("verifyBlanceTasksWithOutBrackets"))
 				.andExpect(jsonPath("$.isBalanced").value(true)).andDo(print());
 	}
+
 	// verify imbalance input
 	@Test
 	public void verifyFalseBlanceTasks() throws Exception {
@@ -62,7 +64,7 @@ public class TasksControllerTest {
 				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("]{(})["))
 				.andExpect(jsonPath("$.isBalanced").value(false)).andDo(print());
 	}
-	
+
 	// verify single imbalance bracket
 	@Test
 	public void verifySingleImBlanceTasks() throws Exception {
@@ -71,18 +73,16 @@ public class TasksControllerTest {
 				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("}"))
 				.andExpect(jsonPath("$.isBalanced").value(false)).andDo(print());
 	}
-	
+
 	// verify empty input
 	@Test
 	public void verifyInvalidInput() throws Exception {
-		
+
 		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "")
-		.accept(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.details[0].location").value("query"))
-		.andExpect(jsonPath("$.details[0].param").value("input"))
-		.andExpect(jsonPath("$.details[0].msg").value("Invalid value"))
-		.andExpect(jsonPath("$.details[0].value").value(""))
-		.andExpect(jsonPath("$.name").value("ValidationError"))
-		.andDo(print());
+				.accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.details[0].location").value("query"))
+				.andExpect(jsonPath("$.details[0].param").value("input"))
+				.andExpect(jsonPath("$.details[0].msg").value("Invalid value"))
+				.andExpect(jsonPath("$.details[0].value").value(""))
+				.andExpect(jsonPath("$.name").value("ValidationError")).andDo(print());
 	}
 }

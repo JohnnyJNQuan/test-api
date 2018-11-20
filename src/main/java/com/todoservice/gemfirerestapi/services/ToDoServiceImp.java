@@ -9,15 +9,17 @@ import com.todoservice.gemfirerestapi.model.ToDoItemUpdateRequest;
 import com.todoservice.gemfirerestapi.repository.TodoRepository;
 
 @Service("toDoService")
-public class ToDoServiceImp implements ToDoService{
-	
+public class ToDoServiceImp implements ToDoService {
+
 	@Autowired
 	private TodoRepository todoRepository;
+
 	// get to-do item by id
 	@Override
 	public ToDoItem getToDoById(long id) {
 		return todoRepository.findById(id);
 	}
+
 	// save to-do item
 	@Override
 	public ToDoItem saveToDo(ToDoItemAddRequest toDoAddRequest) {
@@ -26,12 +28,15 @@ public class ToDoServiceImp implements ToDoService{
 		todoRepository.save(toDoItem);
 		return toDoItem;
 	}
+
 	// update to-do item
 	@Override
 	public ToDoItem patchToDo(ToDoItemUpdateRequest toDoUpdateRequest, long id) {
 		ToDoItem toDoItem = todoRepository.findById(id);
-		if (toDoUpdateRequest.getText()!=null) toDoItem.setText(toDoUpdateRequest.getText());
-		toDoItem.setIsCompleted(toDoUpdateRequest.isCompleted());
+		if (!toDoUpdateRequest.isTextNull())
+			toDoItem.setText(toDoUpdateRequest.getText());
+		if (!toDoUpdateRequest.isCompletedNull())
+			toDoItem.setIsCompleted(toDoUpdateRequest.isCompleted());
 		todoRepository.save(toDoItem);
 		return toDoItem;
 	}
