@@ -2,7 +2,7 @@
 
 The APIs are for General algorithmic tasks and building todo To Do List endpoints
 
-these endpoints are exactly following the example.
+These endpoints are exactly following the example.
 
 You can run the https url below in integration test:
 
