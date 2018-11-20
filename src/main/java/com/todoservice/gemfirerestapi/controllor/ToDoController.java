@@ -5,40 +5,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-//import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import com.todoservice.gemfirerestapi.services.ValidationService;
-import com.todoservice.gemfirerestapi.model.BalanceTestResult;
 import com.todoservice.gemfirerestapi.model.ToDoItem;
 import com.todoservice.gemfirerestapi.model.ToDoItemAddRequest;
 import com.todoservice.gemfirerestapi.model.ToDoItemUpdateRequest;
-import com.todoservice.gemfirerestapi.repository.*;
+import com.todoservice.gemfirerestapi.services.ToDoService;
 import com.todoservice.gemfirerestapi.exception.ItemNotFoundException;
 import com.todoservice.gemfirerestapi.exception.ValidationErrorException;;
 
 @RestController
 public class ToDoController {
 	@Autowired
-	private TodoRepository todoRepository;
+	private ToDoService toDoService;
 	
 	@RequestMapping("/todo/{id}")
     public ResponseEntity<ToDoItem>  getItem(@PathVariable("id") long id) throws Exception {
-		if(todoRepository.findById(id)==null) throw new ItemNotFoundException("Item with "+id+" not found");
-    	 return new ResponseEntity<ToDoItem>(todoRepository.findById(id), HttpStatus.OK);
+		ToDoItem toDoItem = toDoService.getToDoById(id);
+		if(toDoItem==null) throw new ItemNotFoundException("Item with "+id+" not found");
+    	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
     }
 
 	@PostMapping("/todo")
-    public ResponseEntity<ToDoItem> postItem( @RequestBody ToDoItemAddRequest toDoItemAddRequest)throws Exception {
+    public ResponseEntity<ToDoItem> postItem( @RequestBody ToDoItemAddRequest toDoItemAddRequest) throws Exception {
 		if (toDoItemAddRequest.getText()!=null &&  (toDoItemAddRequest.getText().length()>50 ||toDoItemAddRequest.getText().length()<1) ) 
 			throw new ValidationErrorException(toDoItemAddRequest.getText());
-		ToDoItem toDoItem = new ToDoItem();
-		toDoItem.setText(toDoItemAddRequest.getText());
-		todoRepository.save(toDoItem);
-    
+//		ToDoItem toDoItem = new ToDoItem();
+//		toDoItem.setText(toDoItemAddRequest.getText());
+//		todoRepository.save(toDoItem);
+		ToDoItem toDoItem = toDoService.saveToDo(toDoItemAddRequest);
     	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
     }
 	
@@ -46,10 +43,11 @@ public class ToDoController {
     public ResponseEntity<ToDoItem> patchItem(@RequestBody ToDoItemUpdateRequest toDoItemUpdateRequest, @PathVariable("id") long id ) throws Exception {
 		if (toDoItemUpdateRequest.getText()!=null &&  (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1) ) 
 			throw new ValidationErrorException(toDoItemUpdateRequest.getText());
-		ToDoItem toDoItem = todoRepository.findById(id);
-		if (toDoItemUpdateRequest.getText()!=null) toDoItem.setText(toDoItemUpdateRequest.getText());
-		toDoItem.setIsCompleted(toDoItemUpdateRequest.isCompleted());
-		todoRepository.save(toDoItem);
+//		ToDoItem toDoItem = todoRepository.findById(id);
+//		if (toDoItemUpdateRequest.getText()!=null) toDoItem.setText(toDoItemUpdateRequest.getText());
+//		toDoItem.setIsCompleted(toDoItemUpdateRequest.isCompleted());
+//		todoRepository.save(toDoItem);
+		ToDoItem toDoItem = toDoService.patchToDo(toDoItemUpdateRequest,id);
     
     	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
     }

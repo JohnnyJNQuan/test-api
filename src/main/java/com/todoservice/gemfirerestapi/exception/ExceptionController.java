@@ -39,7 +39,24 @@ public class ExceptionController {
 	   toDoItemValidationErrorDetails.setValue(exception.getMessage());
 	   toDoItemValidationErrorDetailssArray[0]=toDoItemValidationErrorDetails;
 	   toDoItemValidationError.setDetails(toDoItemValidationErrorDetailssArray);
-	   toDoItemValidationError.setName("NotFoundError");
+	   toDoItemValidationError.setName("ValidationError");
+      return new ResponseEntity<>(toDoItemValidationError, HttpStatus.BAD_REQUEST);
+   }
+   
+   @ExceptionHandler(value = BalancedInputValidationErrorException.class)
+   public ResponseEntity<Object> balancedInputValidationErrorException(BalancedInputValidationErrorException exception) {
+	   ToDoItemValidationErrorDetails[] validationErrorDetailssArray = 
+			   new ToDoItemValidationErrorDetails[1];
+	   ToDoItemValidationErrorDetails validationErrorDetails = 
+			   new ToDoItemValidationErrorDetails();
+	   ToDoItemValidationError toDoItemValidationError = new ToDoItemValidationError();
+	   validationErrorDetails.setMsg("Invalid value");
+	   validationErrorDetails.setLocation("query");
+	   validationErrorDetails.setParam("input");
+	   validationErrorDetails.setValue(exception.getMessage());
+	   validationErrorDetailssArray[0]=validationErrorDetails;
+	   toDoItemValidationError.setDetails(validationErrorDetailssArray);
+	   toDoItemValidationError.setName("ValidationError");
       return new ResponseEntity<>(toDoItemValidationError, HttpStatus.BAD_REQUEST);
    }
 }

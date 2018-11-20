@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.gemfire.mapping.Region;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
  
 @Region("todoitem")
 public class ToDoItem {
@@ -28,11 +30,11 @@ public class ToDoItem {
 		this.createAt = OffsetDateTime.now().toString();
 		this.isCompleted = false;
 	}
- 
+    @JsonProperty("id")
     public long getId() {
         return id;
     }
-    
+    @JsonProperty("text")
     public String getText() {
         return text;
     }
@@ -40,12 +42,12 @@ public class ToDoItem {
     public void setText(String text) {
         this.text = text;
     }
-    
+    @JsonProperty("createdAt")
     public String getCreateAt() {
         return createAt;
     }
     
-    
+    @JsonProperty("isCompleted")
     public boolean getIsCompleted() {
         return isCompleted;
     }
