@@ -41,25 +41,33 @@ public class TasksControllerTest {
 
 	@Test
 	public void verifyBlanceTasks() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "[]")
+		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "{test}[test](test)")
 				.accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.input").exists())
-				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("[]"))
+				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("{test}[test](test)"))
+				.andExpect(jsonPath("$.isBalanced").value(true)).andDo(print());
+	}
+	
+	@Test
+	public void verifyBlanceTasksWithOutBrackets() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "verifyBlanceTasksWithOutBrackets")
+				.accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.input").exists())
+				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("verifyBlanceTasksWithOutBrackets"))
 				.andExpect(jsonPath("$.isBalanced").value(true)).andDo(print());
 	}
 	
 	@Test
 	public void verifyFalseBlanceTasks() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "fad][")
+		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "]{(})[")
 				.accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.input").exists())
-				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("fad]["))
+				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("]{(})["))
 				.andExpect(jsonPath("$.isBalanced").value(false)).andDo(print());
 	}
 	
 	@Test
 	public void verifySingleNonBlanceTasks() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "{")
+		mockMvc.perform(MockMvcRequestBuilders.get("/tasks/validateBrackets").param("input", "}")
 				.accept(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.input").exists())
-				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("{"))
+				.andExpect(jsonPath("$.isBalanced").exists()).andExpect(jsonPath("$.input").value("}"))
 				.andExpect(jsonPath("$.isBalanced").value(false)).andDo(print());
 	}
 	

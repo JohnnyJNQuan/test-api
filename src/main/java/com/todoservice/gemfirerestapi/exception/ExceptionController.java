@@ -49,14 +49,30 @@ public class ExceptionController {
 			   new ToDoItemValidationErrorDetails[1];
 	   ToDoItemValidationErrorDetails validationErrorDetails = 
 			   new ToDoItemValidationErrorDetails();
-	   ToDoItemValidationError toDoItemValidationError = new ToDoItemValidationError();
+	   ToDoItemValidationError validationError = new ToDoItemValidationError();
 	   validationErrorDetails.setMsg("Invalid value");
 	   validationErrorDetails.setLocation("query");
 	   validationErrorDetails.setParam("input");
 	   validationErrorDetails.setValue(exception.getMessage());
 	   validationErrorDetailssArray[0]=validationErrorDetails;
-	   toDoItemValidationError.setDetails(validationErrorDetailssArray);
-	   toDoItemValidationError.setName("ValidationError");
-      return new ResponseEntity<>(toDoItemValidationError, HttpStatus.BAD_REQUEST);
+	   validationError.setDetails(validationErrorDetailssArray);
+	   validationError.setName("ValidationError");
+      return new ResponseEntity<>(validationError, HttpStatus.BAD_REQUEST);
+   }
+   
+   @ExceptionHandler(value = NullInputException.class)
+   public ResponseEntity<Object> nullInputException(NullInputException exception) {
+	   ToDoItemValidationErrorDetails[] validationErrorDetailssArray = 
+			   new ToDoItemValidationErrorDetails[1];
+	   ToDoItemValidationErrorDetails validationErrorDetails = 
+			   new ToDoItemValidationErrorDetails();
+	   ToDoItemValidationError validationError = new ToDoItemValidationError();
+	   validationErrorDetails.setMsg("Text field must be defined");
+	   validationErrorDetails.setLocation("params");
+	   validationErrorDetails.setParam("text");
+	   validationErrorDetailssArray[0]=validationErrorDetails;
+	   validationError.setDetails(validationErrorDetailssArray);
+	   validationError.setName("ValidationError");
+      return new ResponseEntity<>(validationError, HttpStatus.BAD_REQUEST);
    }
 }

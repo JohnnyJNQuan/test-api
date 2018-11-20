@@ -14,6 +14,7 @@ import com.todoservice.gemfirerestapi.model.ToDoItemAddRequest;
 import com.todoservice.gemfirerestapi.model.ToDoItemUpdateRequest;
 import com.todoservice.gemfirerestapi.services.ToDoService;
 import com.todoservice.gemfirerestapi.exception.ItemNotFoundException;
+import com.todoservice.gemfirerestapi.exception.NullInputException;
 import com.todoservice.gemfirerestapi.exception.ValidationErrorException;;
 
 @RestController
@@ -30,23 +31,18 @@ public class ToDoController {
 
 	@PostMapping("/todo")
     public ResponseEntity<ToDoItem> postItem( @RequestBody ToDoItemAddRequest toDoItemAddRequest) throws Exception {
-		if (toDoItemAddRequest.getText()!=null &&  (toDoItemAddRequest.getText().length()>50 ||toDoItemAddRequest.getText().length()<1) ) 
+		if (toDoItemAddRequest.getText()==null) throw new NullInputException();
+		if (toDoItemAddRequest.getText().length()>50 ||toDoItemAddRequest.getText().length()<1 ) 
 			throw new ValidationErrorException(toDoItemAddRequest.getText());
-//		ToDoItem toDoItem = new ToDoItem();
-//		toDoItem.setText(toDoItemAddRequest.getText());
-//		todoRepository.save(toDoItem);
 		ToDoItem toDoItem = toDoService.saveToDo(toDoItemAddRequest);
     	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);
     }
 	
 	@PatchMapping("/todo/{id}")
     public ResponseEntity<ToDoItem> patchItem(@RequestBody ToDoItemUpdateRequest toDoItemUpdateRequest, @PathVariable("id") long id ) throws Exception {
-		if (toDoItemUpdateRequest.getText()!=null &&  (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1) ) 
+		if (toDoItemUpdateRequest.getText()==null) throw new NullInputException();
+		if (toDoItemUpdateRequest.getText().length()>50 ||toDoItemUpdateRequest.getText().length()<1) 
 			throw new ValidationErrorException(toDoItemUpdateRequest.getText());
-//		ToDoItem toDoItem = todoRepository.findById(id);
-//		if (toDoItemUpdateRequest.getText()!=null) toDoItem.setText(toDoItemUpdateRequest.getText());
-//		toDoItem.setIsCompleted(toDoItemUpdateRequest.isCompleted());
-//		todoRepository.save(toDoItem);
 		ToDoItem toDoItem = toDoService.patchToDo(toDoItemUpdateRequest,id);
     
     	 return new ResponseEntity<ToDoItem>(toDoItem, HttpStatus.OK);

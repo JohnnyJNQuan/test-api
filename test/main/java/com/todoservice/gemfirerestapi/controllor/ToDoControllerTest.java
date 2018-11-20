@@ -83,6 +83,19 @@ public class ToDoControllerTest {
 	}
 	
 	@Test
+	public void verifyNullInputSaveToDo() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.post("/todo/")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("{ }")
+		.accept(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.details[0].location").value("params"))
+		.andExpect(jsonPath("$.details[0].param").value("text"))
+		.andExpect(jsonPath("$.details[0].msg").value("Text field must be defined"))
+		.andExpect(jsonPath("$.name").value("ValidationError"))
+		.andDo(print());
+	}
+	
+	@Test
 	public void verifyToDoById() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/todo/1").accept(MediaType.APPLICATION_JSON))
 		.andExpect(jsonPath("$.id").exists())
@@ -124,6 +137,19 @@ public class ToDoControllerTest {
 		.andExpect(jsonPath("$.id").value(1))
 		.andExpect(jsonPath("$.text").value("Updated ToDo Text"))
 		.andExpect(jsonPath("$.isCompleted").value(true))
+		.andDo(print());
+	}
+	
+	@Test
+	public void verifyNullInputUpdateToDo() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.patch("/todo/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("{ }")
+		.accept(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.details[0].location").value("params"))
+		.andExpect(jsonPath("$.details[0].param").value("text"))
+		.andExpect(jsonPath("$.details[0].msg").value("Text field must be defined"))
+		.andExpect(jsonPath("$.name").value("ValidationError"))
 		.andDo(print());
 	}
 	

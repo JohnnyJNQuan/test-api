@@ -30,21 +30,21 @@ public class ValidationServiceImp implements ValidationService{
     	return validateBracketsModel;
     }
     
-    private static boolean isBalanced(final String str1, final LinkedList<Character> startedList, final Map<Character, Character> balancedHashMap) {
-        if ((str1 == null) || str1.isEmpty()) {
+    public static boolean isBalanced(final String str1, final LinkedList<Character> startedList, final Map<Character, Character> balancedHashMap) {
+        if ( (str1 == null) || str1.isEmpty()) {
             return startedList.isEmpty();
         } else if (balancedHashMap.containsValue(str1.charAt(0))) {  //if find {, [ or ( add to linkedList
         	startedList.add(str1.charAt(0));
             return isBalanced(str1.substring(1), startedList, balancedHashMap);
         } else if (balancedHashMap.containsKey(str1.charAt(0))) { //if find },] or ) remove last added item.
-            if (startedList.getLast() !=null && startedList.getLast() == balancedHashMap.get(str1.charAt(0))) {
+            if (startedList.size() != 0 && startedList.getLast() == balancedHashMap.get(str1.charAt(0))) {
             	startedList.removeLast();
                 return isBalanced(str1.substring(1), startedList, balancedHashMap);
             } else {
                 return false;
             }
         } else {
-            return isBalanced(str1.substring(1), startedList, balancedHashMap);
+            return isBalanced(str1.substring(1), startedList, balancedHashMap); // input without brackets
         }
     }
     private static boolean filterEndBrakets(String str) {
